@@ -2,7 +2,7 @@
 require_once "db.php";
 
 // Example query
-$stmt = $conn->query("SELECT * FROM cart");
+$stmt = $conn->query("SELECT * FROM products");
 $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 try {
