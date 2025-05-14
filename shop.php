@@ -1,16 +1,17 @@
 <?php
 require_once "db.php";
 
-// Example query
-$stmt = $conn->query("SELECT * FROM products");
-$products = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
+// Establishing database connection
 try {
     $conn = new PDO("mysql:host=$host;dbname=$dbname", $user, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch(PDOException $e) {
     die("Connection failed: " . $e->getMessage());
 }
+
+// Fetch products
+$stmt = $conn->query("SELECT * FROM products");
+$products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Handle Add to Cart
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['product_id'])) {
@@ -39,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['product_id'])) {
 $type = $_GET['type'] ?? '';
 $company = $_GET['company'] ?? '';
 
-// Build Query
+// Build Query for filtering products
 $query = "SELECT * FROM products WHERE 1=1";
 $params = [];
 
@@ -56,7 +57,7 @@ $stmt = $conn->prepare($query);
 $stmt->execute($params);
 $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Get filter values
+// Get filter values for Types and Companies
 $types = $conn->query("SELECT DISTINCT type FROM products")->fetchAll(PDO::FETCH_COLUMN);
 $companies = $conn->query("SELECT DISTINCT company FROM products")->fetchAll(PDO::FETCH_COLUMN);
 ?>
@@ -70,11 +71,11 @@ $companies = $conn->query("SELECT DISTINCT company FROM products")->fetchAll(PDO
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .card-img-top { height: 200px; object-fit: cover; }
-        .sidebar { background-color:rgba(6, 72, 96, 0.76); padding: 20px; border-radius: 8px; color: rgba(235, 238, 239, 0.96);}
-        .card:hover { transform: scale(1.02); transition: 0.3s;  }
+        .sidebar { background-color: rgba(6, 72, 96, 0.76); padding: 20px; border-radius: 8px; color: rgba(235, 238, 239, 0.96); }
+        .card:hover { transform: scale(1.02); transition: 0.3s; }
     </style>
 </head>
-<body style="background-color:rgb(8, 87, 101);">
+<body style="background-color: rgb(8, 87, 101);">
 
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -161,33 +162,19 @@ $companies = $conn->query("SELECT DISTINCT company FROM products")->fetchAll(PDO
     </div>
 </div>
 
-
 <!-- Footer -->
-</main>
-<!-- Main Content End -->
-
-<!-- Footer Start -->
 <footer style="background-color: #085765; color: white; padding: 20px 0; text-align: center;">
-  <p>&copy; 2025 JK Shopping | 
-     <a href="shop.php" style="color: #fff;">Home</a> | 
-     <a href="cart.php" style="color: #fff;">Cart</a> | 
-     <a href="contact.php" style="color: #fff;">Contact</a>
-  </p>
-  <p>Follow Us: 
-     <a href="#" style="color: #fff;">Facebook</a> | 
-     <a href="#" style="color: #fff;">Instagram</a> | 
-     <a href="#" style="color: #fff;">Twitter</a>
-  </p>
+    <p>&copy; 2025 GoGalse | 
+       <a href="shop.php" style="color: #fff;">Home</a> | 
+       <a href="cart.php" style="color: #fff;">Cart</a> | 
+       <a href="contact.php" style="color: #fff;">Contact</a>
+    </p>
+    <p>Follow Us: 
+       <a href="#" style="color: #fff;">Facebook</a> | 
+       <a href="#" style="color: #fff;">Instagram</a> | 
+       <a href="#" style="color: #fff;">Twitter</a>
+    </p>
 </footer>
-<!-- Footer End -->
-
-<!--
-<footer class="text-center" style="background-color:black; color: #f8f9fa;">
-    <div class="container">
-        <p class="mb-1">&copy; <?= date("Y") ?> GoGalse. All rights reserved.</p>
-        <small>Designed for performance and simplicity.</small>
-    </div>
-</footer>-->
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
