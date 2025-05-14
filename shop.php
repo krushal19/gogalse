@@ -1,4 +1,9 @@
 <?php
+require_once "db.php";
+
+// Example query
+$stmt = $conn->query("SELECT * FROM cart");
+$products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 try {
     $conn = new PDO("mysql:host=$host;dbname=$dbname", $user, $password);
