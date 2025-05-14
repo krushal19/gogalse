@@ -1,15 +1,5 @@
 <?php
 
-try {
-    $conn = new PDO("mysql:host=$host;dbname=$dbname", $user, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch(PDOException $e) {
-    die("Connection failed: " . $e->getMessage());
-}
-
-// Fetch GoGalse products
-$stmt = $conn->query("SELECT * FROM products WHERE type = 'GoGalse' ORDER BY id DESC LIMIT 8");
-$products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
