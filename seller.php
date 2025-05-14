@@ -7,11 +7,6 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id']; // Store user_id from session
 
-// Database connection
-$host = "localhost";
-$user = "root";
-$password = "";
-$dbname = "gogalse";
 
 try {
     $conn = new PDO("mysql:host=$host;dbname=$dbname", $user, $password);

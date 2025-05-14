@@ -6,11 +6,6 @@ if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
 
-// Database connection
-$host = "localhost";
-$user = "root";
-$password = "";
-$dbname = "gogalse";
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $user, $password);

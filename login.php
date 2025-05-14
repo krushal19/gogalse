@@ -1,11 +1,6 @@
 <?php
 session_start();
 
-// Database connection
-$host = "localhost";
-$user = "root";
-$password = "";
-$dbname = "gogalse";
 
 try {
     $conn = new PDO("mysql:host=$host;dbname=$dbname", $user, $password);
