@@ -116,7 +116,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="collapse navbar-collapse" id="navbarLinks">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item"><a href="index.php" class="nav-link active">Index</a></li>
-                <li class="nav-item"><a href="shop.php" class="nav-link">Shop</a></li>
+                <li class="nav-item"><a href="shop.php?type=GoGalse" class="nav-link">Shop</a></li>
                 <li class="nav-item"><a href="cart.php" class="nav-link">Cart</a></li>
                 <li class="nav-item"><a href="contact.php" class="nav-link">Contact</a></li>
             </ul>

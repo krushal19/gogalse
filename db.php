@@ -1,5 +1,5 @@
 <?php
-$host = "localhost";       // Use "localhost" for XAMPP
+$host = "127.0.0.1";       // Use "localhost" for XAMPP
 $dbname = "gogalse";       // Your actual database name
 $user = "root";            // Default XAMPP username
 $password = "";            // Default XAMPP password is blank
