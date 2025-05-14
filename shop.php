@@ -1,11 +1,15 @@
 <?php
 require_once "db.php";
 
-// Establishing database connection
+// Establishing database connection with timeout handling
 try {
-    $conn = new PDO("mysql:host=$host;dbname=$dbname", $user, $password);
+    // Set the timeout to 30 seconds (adjust as needed)
+    $conn = new PDO("mysql:host=$host;dbname=$dbname", $user, $password, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_TIMEOUT => 30  // 30 seconds timeout
+    ]);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch(PDOException $e) {
+} catch (PDOException $e) {
     die("Connection failed: " . $e->getMessage());
 }
 
