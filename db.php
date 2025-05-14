@@ -1,5 +1,5 @@
 <?php
-$host = "gogalse.onrender.com"; // Caution: only works if MySQL is installed and listening
+$host = "gogalse"; // Caution: only works if MySQL is installed and listening
 $dbname = "gogalse";
 $user = "root";
 $password = ""; // Must match the DB user's password
