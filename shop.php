@@ -1,69 +1,69 @@
 <?php
-require_once "db.php";
+// require_once "db.php";
 
-// Establishing database connection with timeout handling
-try {
-    // Set the timeout to 30 seconds (adjust as needed)
-    $conn = new PDO("mysql:host=$host;dbname=$dbname", $user, $password, [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_TIMEOUT => 30  // 30 seconds timeout
-    ]);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Connection failed: " . $e->getMessage());
-}
+// // Establishing database connection with timeout handling
+// try {
+//     // Set the timeout to 30 seconds (adjust as needed)
+//     $conn = new PDO("mysql:host=$host;dbname=$dbname", $user, $password, [
+//         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+//         PDO::ATTR_TIMEOUT => 30  // 30 seconds timeout
+//     ]);
+//     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+// } catch (PDOException $e) {
+//     die("Connection failed: " . $e->getMessage());
+// }
 
-// Fetch products
-$stmt = $conn->query("SELECT * FROM products");
-$products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// // Fetch products
+// $stmt = $conn->query("SELECT * FROM products");
+// $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Handle Add to Cart
-if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['product_id'])) {
-    $productId = $_POST['product_id'];
+// // Handle Add to Cart
+// if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['product_id'])) {
+//     $productId = $_POST['product_id'];
 
-    // Fetch product details
-    $stmt = $conn->prepare("SELECT * FROM products WHERE id = :id");
-    $stmt->execute(['id' => $productId]);
-    $product = $stmt->fetch(PDO::FETCH_ASSOC);
+//     // Fetch product details
+//     $stmt = $conn->prepare("SELECT * FROM products WHERE id = :id");
+//     $stmt->execute(['id' => $productId]);
+//     $product = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($product) {
-        // Insert into cart table (create it if not exists)
-        $cartStmt = $conn->prepare("INSERT INTO cart (product_id, name, price, image) VALUES (:id, :name, :price, :image)");
-        $cartStmt->execute([
-            'id' => $product['id'],
-            'name' => $product['name'],
-            'price' => $product['price'],
-            'image' => $product['image']
-        ]);
-    }
-    header("Location: shop.php?type=" . urlencode($_GET['type'] ?? '') . "&company=" . urlencode($_GET['company'] ?? ''));
-    exit;
-}
+//     if ($product) {
+//         // Insert into cart table (create it if not exists)
+//         $cartStmt = $conn->prepare("INSERT INTO cart (product_id, name, price, image) VALUES (:id, :name, :price, :image)");
+//         $cartStmt->execute([
+//             'id' => $product['id'],
+//             'name' => $product['name'],
+//             'price' => $product['price'],
+//             'image' => $product['image']
+//         ]);
+//     }
+//     header("Location: shop.php?type=" . urlencode($_GET['type'] ?? '') . "&company=" . urlencode($_GET['company'] ?? ''));
+//     exit;
+// }
 
-// Filters
-$type = $_GET['type'] ?? '';
-$company = $_GET['company'] ?? '';
+// // Filters
+// $type = $_GET['type'] ?? '';
+// $company = $_GET['company'] ?? '';
 
-// Build Query for filtering products
-$query = "SELECT * FROM products WHERE 1=1";
-$params = [];
+// // Build Query for filtering products
+// $query = "SELECT * FROM products WHERE 1=1";
+// $params = [];
 
-if ($type) {
-    $query .= " AND type = :type";
-    $params['type'] = $type;
-}
-if ($company) {
-    $query .= " AND company = :company";
-    $params['company'] = $company;
-}
+// if ($type) {
+//     $query .= " AND type = :type";
+//     $params['type'] = $type;
+// }
+// if ($company) {
+//     $query .= " AND company = :company";
+//     $params['company'] = $company;
+// }
 
-$stmt = $conn->prepare($query);
-$stmt->execute($params);
-$products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// $stmt = $conn->prepare($query);
+// $stmt->execute($params);
+// $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Get filter values for Types and Companies
-$types = $conn->query("SELECT DISTINCT type FROM products")->fetchAll(PDO::FETCH_COLUMN);
-$companies = $conn->query("SELECT DISTINCT company FROM products")->fetchAll(PDO::FETCH_COLUMN);
+// // Get filter values for Types and Companies
+// $types = $conn->query("SELECT DISTINCT type FROM products")->fetchAll(PDO::FETCH_COLUMN);
+// $companies = $conn->query("SELECT DISTINCT company FROM products")->fetchAll(PDO::FETCH_COLUMN);
 ?>
 
 <!DOCTYPE html>

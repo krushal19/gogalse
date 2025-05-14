@@ -1,14 +1,13 @@
 <?php
-$host = "127.0.0.1";       // Use "localhost" for XAMPP
-$dbname = "gogalse";       // Your actual database name
-$user = "root";            // Default XAMPP username
-$password = "";            // Default XAMPP password is blank
+$host = "127.0.0.1";
+$dbname = "gogalse";
+$user = "root";
+$password = "";
 
 try {
     $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $user, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    echo "Connected successfully";
+    echo "✅ Connected successfully to '$dbname'";
 } catch (PDOException $e) {
-    echo "Connection failed: " . $e->getMessage();
+    die("❌ Connection failed: " . $e->getMessage());
 }
-?>
