@@ -1,4 +1,4 @@
-<?php
+
 // require_once "db.php";
 
 // // Establishing database connection with timeout handling
@@ -64,7 +64,41 @@
 // // Get filter values for Types and Companies
 // $types = $conn->query("SELECT DISTINCT type FROM products")->fetchAll(PDO::FETCH_COLUMN);
 // $companies = $conn->query("SELECT DISTINCT company FROM products")->fetchAll(PDO::FETCH_COLUMN);
+
+<?php
+// Example placeholder functions to simulate fetching data from a database
+function getTypes() {
+    return ['Laptop', 'Tablet', 'Phone']; // Replace with DB logic
+}
+
+function getCompanies() {
+    return ['Apple', 'Samsung', 'Dell']; // Replace with DB logic
+}
+
+function getFilteredProducts($type, $company) {
+    // Replace with actual DB logic
+    $allProducts = [
+        ['id' => 1, 'name' => 'iPhone 14', 'description' => 'Latest iPhone', 'price' => 999.99, 'image' => 'images/iphone14.jpg', 'type' => 'Phone', 'company' => 'Apple'],
+        ['id' => 2, 'name' => 'Galaxy S23', 'description' => 'Samsung flagship', 'price' => 899.99, 'image' => 'images/galaxys23.jpg', 'type' => 'Phone', 'company' => 'Samsung'],
+        ['id' => 3, 'name' => 'Dell XPS 13', 'description' => 'Powerful ultrabook', 'price' => 1199.99, 'image' => 'images/xps13.jpg', 'type' => 'Laptop', 'company' => 'Dell'],
+    ];
+
+    return array_filter($allProducts, function($product) use ($type, $company) {
+        return ($type === '' || $product['type'] === $type) &&
+               ($company === '' || $product['company'] === $company);
+    });
+}
+
+// Initialize filter variables safely
+$type = isset($_GET['type']) ? $_GET['type'] : '';
+$company = isset($_GET['company']) ? $_GET['company'] : '';
+
+// Get filter options and products
+$types = getTypes();
+$companies = getCompanies();
+$products = getFilteredProducts($type, $company);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
