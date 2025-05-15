@@ -1,4 +1,4 @@
-
+<!--
 // require_once "db.php";
 
 // // Establishing database connection with timeout handling
@@ -65,7 +65,7 @@
 // $types = $conn->query("SELECT DISTINCT type FROM products")->fetchAll(PDO::FETCH_COLUMN);
 // $companies = $conn->query("SELECT DISTINCT company FROM products")->fetchAll(PDO::FETCH_COLUMN);
 
-
+-->
 <?php
 require_once "db.php"; // Make sure db.php has $host, $dbname, $user, $password
 
