@@ -1,5 +1,9 @@
 <?php
+<?php
 // index.php (Home Page)
+include 'db.php'; // ✅ This connects to your database
+?>
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
