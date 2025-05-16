@@ -1,13 +1,12 @@
 <?php
-$host = "127.0.0.1";
-$dbname = "gogalse";
-$user = "root";
-$password = "";
+$host = "sql204.infinityfree.com";
+$user = "if0_38996043";
+$password = "MyStrongPass123"; // <-- this is your real password
+$database = "if0_38996043_gogalse";
 
-try {
-    $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $user, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    echo "✅ Connected successfully to '$dbname'";
-} catch (PDOException $e) {
-    die("❌ Connection failed: " . $e->getMessage());
+$conn = new mysqli($host, $user, $password, $database);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
+?>
