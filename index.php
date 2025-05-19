@@ -1,18 +1,17 @@
 <?php
-<?php
-$host = "sql204.infinityfree.com";
-$user = "if0_38996043";
-$password = "27226EJ7jDRPwb"; // <-- this is your real password
-$database = "if0_38996043_gogalse";
+$host = "localhost";
+$user = "root";
+$password = ""; // default password is empty for XAMPP
+$dbname = "gogalse"; // or whatever your local DB is
 
-$conn = new mysqli($host, $user, $password, $database);
+$conn = new mysqli($host, $user, $password, $dbname);
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 ?>
 
-?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

@@ -7,7 +7,7 @@ try {
     // Set the timeout to 30 seconds (adjust as needed)
     $conn = new PDO("mysql:host=$host;dbname=$dbname", $user, $password, [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_TIMEOUT => 30 // 30 seconds timeout
+        PDO::ATTR_TIMEOUT => 3 // 30 seconds timeout
     ]);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {

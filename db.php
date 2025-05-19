@@ -2,9 +2,9 @@
 $host = "localhost";
 $user = "root";
 $password = ""; // default password is empty for XAMPP
-$database = "gogalse"; // or whatever your local DB is
+$dbname = "gogalse"; // or whatever your local DB is
 
-$conn = new mysqli($host, $user, $password, $database);
+$conn = new mysqli($host, $user, $password, $dbname);
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
