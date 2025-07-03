@@ -1,13 +1,8 @@
 <?php
 session_start();
 
-
-try {
-    $conn = new PDO("mysql:host=$host;dbname=$dbname", $user, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch(PDOException $e) {
-    die("Database connection failed: " . $e->getMessage());
-}
+// Include the database connection
+require_once 'db.php'; // This should return $conn
 
 $error = "";
 
@@ -19,7 +14,7 @@ if (empty($_SESSION['csrf_token'])) {
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-        die("Invalid CSRF token. Please refresh the page and try again.");
+        die("Invalid CSRF token. Please refresh the page and try again.");  
     }
 
     $username = trim($_POST['username'] ?? '');
@@ -34,18 +29,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($user && password_verify($pass, $user['password'])) {
             $_SESSION['username'] = $username;
             $_SESSION['role'] = $role;
+            $_SESSION['user_id'] = $user['id']; 
 
             if ($role === 'customer') {
                 header("Location: index.php");
                 exit;
-            } elseif ($role === 'seller') {
+            }
+            elseif ($role === 'seller') {
                 header("Location: seller.php");
                 exit;
             }
-        } else {
+        }
+
+        else {
             $error = "Invalid login credentials!";
         }
-    } else {
+    } 
+    else {
         $error = "Please fill all fields.";
     }
 }

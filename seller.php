@@ -5,15 +5,10 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
+// Include database connection
+require_once 'db.php';
+
 $user_id = $_SESSION['user_id']; // Store user_id from session
-
-
-try {
-    $conn = new PDO("mysql:host=$host;dbname=$dbname", $user, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch(PDOException $e) {
-    die("Connection failed: " . $e->getMessage());
-}
 
 $successMsg = $errorMsg = "";
 
@@ -33,7 +28,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $imageFile = $imageDir . $uniqueName;
 
             if (move_uploaded_file($_FILES['image']['tmp_name'], $imageFile)) {
-                // Include user_id in insert
                 $stmt = $conn->prepare("INSERT INTO products (name, type, company, image, price, description, user_id) VALUES (?, ?, ?, ?, ?, ?, ?)");
                 $stmt->execute([$name, $type, $company, $imageFile, $price, $description, $user_id]);
                 $successMsg = "✅ Product inserted successfully!";
@@ -100,7 +94,6 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 <body>
 
-<!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
         <a class="navbar-brand" href="#">GoGalse</a>
@@ -174,7 +167,6 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </form>
     </div>
 
-    <!-- Product Listings (Filtered) -->
     <div class="row mt-5">
         <div class="col-md-3">
             <div class="sidebar">
@@ -214,15 +206,14 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <div class="card h-100 shadow-sm">
                                 <img src="<?= htmlspecialchars($product['image']) ?>" class="card-img-top" alt="<?= htmlspecialchars($product['name']) ?>">
                                 <div class="card-body">
-    <h5 class="card-title"><?= htmlspecialchars($product['name']) ?></h5>
-    <p class="card-text"><?= htmlspecialchars($product['description']) ?></p>
-    <p class="card-text"><strong>$<?= number_format($product['price'], 2) ?></strong></p>
-    <div class="d-flex justify-content-between mt-3">
-        <a href="edit_product.php?id=<?= $product['id'] ?>" class="btn btn-warning btn-sm">✏️ Edit</a>
-        <a href="delete_product.php?id=<?= $product['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this product?')">🗑️ Delete</a>
-    </div>
-</div>
-
+                                    <h5 class="card-title"><?= htmlspecialchars($product['name']) ?></h5>
+                                    <p class="card-text"><?= htmlspecialchars($product['description']) ?></p>
+                                    <p class="card-text"><strong>$<?= number_format($product['price'], 2) ?></strong></p>
+                                    <div class="d-flex justify-content-between mt-3">
+                                        <a href="edit_product.php?id=<?= $product['id'] ?>" class="btn btn-warning btn-sm">✏️ Edit</a>
+                                        <a href="delete_product.php?id=<?= $product['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this product?')">🗑️ Delete</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     <?php endforeach; ?>

@@ -1,41 +1,49 @@
 <?php
 session_start();
 
-// CSRF token
+// Include DB connection
+require_once 'db.php'; // Make sure this file defines $conn (PDO connection)
+
+// CSRF token setup
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
 
+$error = "";
 
-try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $user, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Database connection failed: " . $e->getMessage());
-}
-
-// Handle form submit
+// Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if ($_POST['csrf_token'] === $_SESSION['csrf_token']) {
-        $username = $_POST['username'];
-        $email    = $_POST['email'];
-        $phone    = $_POST['phone'];
-        $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // encrypted
-        $role     = $_POST['role'];
-
-        // Insert user
-        $stmt = $pdo->prepare("INSERT INTO users (username, email, phone, password, role) VALUES (?, ?, ?, ?, ?)");
-        if ($stmt->execute([$username, $email, $phone, $password, $role])) {
-            header("Location: register.php?registered=1");
-            exit();
-        } else {
-            $error = "Registration failed.";
-        }
-    } else {
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
         $error = "Invalid CSRF token.";
+    } else {
+        $username = trim($_POST['username'] ?? '');
+        $email    = trim($_POST['email'] ?? '');
+        $phone    = trim($_POST['phone'] ?? '');
+        $password = $_POST['password'] ?? '';
+        $role     = $_POST['role'] ?? '';
+
+        // Basic validation
+        if (!empty($username) && !empty($email) && !empty($phone) && !empty($password) && !empty($role)) {
+            // Hash password
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+            // Insert into users table
+            try {
+                $stmt = $conn->prepare("INSERT INTO users (username, email, phone, password, role) VALUES (?, ?, ?, ?, ?)");
+                $stmt->execute([$username, $email, $phone, $hashedPassword, $role]);
+
+                header("Location: register.php?registered=1");
+                exit();
+            } catch (PDOException $e) {
+                $error = "Registration failed: " . $e->getMessage();
+            }
+        } else {
+            $error = "Please fill in all fields.";
+        }
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

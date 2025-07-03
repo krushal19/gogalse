@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+require_once "db.php";
 
 try {
     $conn = new PDO("mysql:host=$host;dbname=$dbname", $user, $password);
