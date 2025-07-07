@@ -47,22 +47,7 @@ foreach ($cartItems as $item) {
 <body style="background-color:rgba(6, 72, 96, 0.89);">
 
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-        <a class="navbar-brand" href="#">GoGalse</a>
-        <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a href="index.php" class="nav-link">Home</a></li>
-                <li class="nav-item"><a href="shop.php" class="nav-link">Shop</a></li>
-                <li class="nav-item"><a href="about.php" class="nav-link">About</a></li>
-                <li class="nav-item"><a href="contact.php" class="nav-link">Contact</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<?php include "head.php"; ?>
 
 <!-- Cart Content -->
 <div class="container mt-4">

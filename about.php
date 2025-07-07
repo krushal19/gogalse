@@ -54,22 +54,7 @@
 <body>
 
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
-    <div class="container">
-        <a class="navbar-brand fw-bold" href="index.php"><i class="fas fa-store"></i> GoGalse</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item"><a href="index.php" class="nav-link">Home</a></li>
-                <li class="nav-item"><a href="shop.php" class="nav-link">Shop</a></li>
-                <li class="nav-item"><a href="about.php" class="nav-link active">About</a></li>
-                <li class="nav-item"><a href="contact.php" class="nav-link">Contact</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<?php include "head.php"; ?>
 
 <!-- Hero Section -->
 <div class="hero">

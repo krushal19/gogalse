@@ -108,22 +108,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <body style="background-color:rgb(22, 122, 140);">
 
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-        <a class="navbar-brand fw-bold" href="#">GoGalse</a>
-        <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarLinks">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarLinks">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a href="index.php" class="nav-link active">Index</a></li>
-                <li class="nav-item"><a href="shop.php?type=GoGalse" class="nav-link">Shop</a></li>
-                <li class="nav-item"><a href="cart.php" class="nav-link">Cart</a></li>
-                <li class="nav-item"><a href="contact.php" class="nav-link">Contact</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<?php include "head.php"; ?>
 
 <!-- Slider -->
 <div id="mainCarousel" class="carousel slide" data-bs-ride="carousel">

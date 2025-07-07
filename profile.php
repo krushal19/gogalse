@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+require_once "db.php"; // ✅ ADD THIS LINE to include DB configuration
 
 try {
     $conn = new PDO("mysql:host=$host;dbname=$dbname", $user, $password);
@@ -150,6 +151,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </style>
 </head>
 <body>
+
+        <?php include "head.php"; ?>
+        
     <div class="overlay"></div>
     <div class="profile-container">
         <div class="profile-box">

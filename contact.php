@@ -40,23 +40,7 @@
 <body style="background-color:rgb(8, 87, 101);">
 
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="index.php">GoGalse</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item"><a href="index.php" class="nav-link">Home</a></li>
-                <li class="nav-item"><a href="shop.php" class="nav-link">Shop</a></li>
-                <li class="nav-item"><a href="contact.php" class="nav-link active">Contact</a></li>
-                <li class="nav-item"><a href="login.php" class="nav-link">Login</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
+<?php include "head.php"; ?>
 <!-- Contact Form -->
 <div class="container">
     <div class="contact-container">
