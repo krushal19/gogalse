@@ -1,5 +1,5 @@
 <?php
-
+require_once "db.php"; // Make sure db.php has $host, $dbname, $user, $password
 try {
     $conn = new PDO("mysql:host=$host;dbname=$dbname", $user, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
