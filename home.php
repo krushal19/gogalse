@@ -1,234 +1,188 @@
 <?php
-include 'db.php';
+require_once "db.php";
 
 try {
-    $conn = new PDO("mysql:host=$host;dbname=$dbname", $user, $password);
+    $conn = new PDO("mysql:host=$host;dbname=$dbname", $user, $password, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_TIMEOUT => 3
+    ]);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch(PDOException $e) {
+} catch (PDOException $e) {
     die("Connection failed: " . $e->getMessage());
 }
 
-// Fetch GoGalse products
-$stmt = $conn->query("SELECT * FROM products WHERE type = 'GoGalse' ORDER BY id DESC LIMIT 8");
-$products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// Get latest feedback
+$feedbackStmt = $conn->query("SELECT name, message, created_at FROM feedback ORDER BY created_at DESC LIMIT 6");
+$feedbacks = $feedbackStmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>GoGalse - Home</title>
+    <title>GoGalse Optical - Home</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-    /* Carousel Image Style */
-    .carousel-item img {
-        height: 500px;
-        object-fit: cover;
-        border-radius: 12px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-    }
-
-    /* Product Image Style */
-    .card-img-top {
-    width: 100%;
-    height: 250px;
-    object-fit: contain; /* or 'cover' depending on your goal */
-    background-color: #f8f9fa; /* Optional: background for empty space if using 'contain' */
-    padding: 10px; /* Optional: breathing room around images */
-    border-radius: 8px 8px 0 0;
-}
-
-
-    .card-img-top:hover {
-        transform: scale(1.05);
-    }
-
-    .card {
-        border: none;
-        border-radius: 0.5rem;
-        overflow: hidden;
-        transition: box-shadow 0.3s ease;
-    }
-
-    .card:hover {
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-    }
-
-    .testimonial {
-        background-color: #f8f9fa;
-        padding: 40px;
-        border-radius: 12px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.05);
-        text-align: center;
-    }
-
-    footer {
-        background: #212529;
-        color: #ccc;
-        padding: 2rem 0;
-    }
-    #footar_slider {
-    margin: 40px auto;
-    max-width: 1000px;
-    padding: 0 15px;
-}
-
-#mainCarousel {
-    position: relative;
-    border-radius: 12px;
-    overflow: hidden;
-}
-
-#mainCarousel .carousel-inner img {
-    height: 500px;
-    width: 100%;
-    object-fit: contain;
-    background-color: rgb(8, 87, 101);
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-}
-
-.carousel-control-prev,
-.carousel-control-next {
-    width: 5%;
-}
-
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-    background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 50%;
-    background-size: 50%, 50%;
-    padding: 10px;
-}
-
-</style>
-
+        body {
+            background-color: #f0f6f9;
+        }
+        .featured-img { height: 220px; object-fit: cover; }
+        .feedback-card {
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .feedback-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .feedback-header img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .about-optical { background-color: #1f3a52; color: white; }
+        footer { background-color: #1f3a52; }
+        footer a { color: #f0f6f9; text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
+    </style>
 </head>
-<body style="background-color:rgb(22, 122, 140);">
+<body>
 
-<!-- Navbar -->
 <?php include "head.php"; ?>
 
-<!-- Slider -->
-<div id="mainCarousel" class="carousel slide" data-bs-ride="carousel">
+<!-- Product Slider -->
+<div id="opticalCarousel" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
         <div class="carousel-item active">
-            <img src="images/home2.jpg" class="d-block w-100" alt="GoGalse Banner 1"
-                 style="height: 500px; width: 100%; object-fit: contain; background-color:rgb(8, 87, 101); border-radius: 12px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);">
+            <img src="assets/images/eyeglass1.jpg" class="d-block w-100" alt="Classic Eyeglasses" style="height:500px; object-fit:cover;">
+            <div class="carousel-caption d-none d-md-block">
+                <h3>Classic Eyeglasses</h3>
+                <p>Elegant & timeless designs for everyday wear</p>
+            </div>
         </div>
         <div class="carousel-item">
-            <img src="images/home3.jpg" class="d-block w-100" alt="GoGalse Banner 2"
-                 style="height: 500px; width: 100%; object-fit: contain; background-color:rgb(8, 87, 101); border-radius: 12px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);">
+            <img src="assets/images/sunglass1.jpg" class="d-block w-100" alt="Sport Sunglasses" style="height:500px; object-fit:cover;">
+            <div class="carousel-caption d-none d-md-block">
+                <h3>Sport Sunglasses</h3>
+                <p>Protect your eyes in style during outdoor activities</p>
+            </div>
         </div>
         <div class="carousel-item">
-            <img src="images/home4.jpg" class="d-block w-100" alt="GoGalse Banner 3"
-                 style="height: 500px; width: 100%; object-fit: contain; background-color:rgb(8, 87, 101); border-radius: 12px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);">
+            <img src="assets/images/eyeglass2.jpg" class="d-block w-100" alt="Blue Light Glasses" style="height:500px; object-fit:cover;">
+            <div class="carousel-caption d-none d-md-block">
+                <h3>Blue Light Glasses</h3>
+                <p>Reduce eye strain from screens with trendy options</p>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="assets/images/sunglass2.jpg" class="d-block w-100" alt="Fashion Sunglasses" style="height:500px; object-fit:cover;">
+            <div class="carousel-caption d-none d-md-block">
+                <h3>Fashion Sunglasses</h3>
+                <p>Look chic while protecting your eyes from UV rays</p>
+            </div>
         </div>
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
+    <button class="carousel-control-prev" type="button" data-bs-target="#opticalCarousel" data-bs-slide="prev">
         <span class="carousel-control-prev-icon"></span>
     </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
+    <button class="carousel-control-next" type="button" data-bs-target="#opticalCarousel" data-bs-slide="next">
         <span class="carousel-control-next-icon"></span>
     </button>
 </div>
 
-<!-- GoGalse Category Block -->
-<section class="container my-5 text-center" style="background-color:rgb(22, 122, 140); color:rgba(216, 220, 221, 0.92);">
-    <h2 class="mb-4">GoGalse Collection</h2>
-</section>
-<div class="text-center" style="background-color:rgb(22, 122, 140);">
-    <a href="shop.php?type=GoGalse" class="btn btn-lg btn-info" style="background-color:rgb(7, 72, 85); color:rgba(216, 220, 221, 0.92);">
-        Shop GoGalse Products  
-    </a>
-</div>
-
-
-<!-- Products Section -->
-<section class="container my-5">
-    <h2 class="text-center mb-4" style="color:rgba(216, 220, 221, 0.92);">Latest GoGalse Products</h2>
-    <div class="row g-4">
-        <?php foreach ($products as $product): ?>
-            <div class="col-md-3">
-                <div class="card h-100 shadow-sm">
-                    <img src="<?= htmlspecialchars($product['image']) ?>" class="card-img-top" alt="<?= htmlspecialchars($product['name']) ?>">
-                    <div class="card-body">
-                        <h5 class="card-title"><?= htmlspecialchars($product['name']) ?></h5>
-                        <p class="card-text"><?= substr(htmlspecialchars($product['description']), 0, 60) ?>...</p>
-                        <p class="fw-bold text-success">$<?= number_format($product['price'], 2) ?></p>
-                        <a href="shop.php?type=GoGalse" class="btn btn-outline-primary btn-sm">View Product</a>
+<!-- Featured Products -->
+<section class="py-5" style="background-color: #ffffff;">
+    <div class="container">
+        <h2 class="text-center mb-4" style="color: #1f3a52;">Our Top Optical Picks</h2>
+        <div class="row g-4">
+            <?php
+            $sampleProducts = [
+                ["image" => "assets/images/eyeglass1.jpg", "name" => "Classic Eyeglasses", "price" => 129],
+                ["image" => "assets/images/sunglass1.jpg", "name" => "Sport Sunglasses", "price" => 149],
+                ["image" => "assets/images/eyeglass2.jpg", "name" => "Blue Light Glasses", "price" => 99],
+                ["image" => "assets/images/sunglass2.jpg", "name" => "Fashion Sunglasses", "price" => 119],
+                ["image" => "assets/images/reader.jpg", "name" => "Reading Glasses", "price" => 89],
+                ["image" => "assets/images/lens.jpg", "name" => "Contact Lenses", "price" => 59],
+                ["image" => "assets/images/sports.jpg", "name" => "Sports Glasses", "price" => 139],
+                ["image" => "assets/images/kids.jpg", "name" => "Kids Eyewear", "price" => 79]
+            ];
+            foreach ($sampleProducts as $product): ?>
+                <div class="col-sm-6 col-lg-3">
+                    <div class="card h-100 shadow-sm">
+                        <img src="<?= htmlspecialchars($product['image']) ?>" class="card-img-top featured-img" alt="<?= htmlspecialchars($product['name']) ?>">
+                        <div class="card-body text-center">
+                            <h5 class="card-title"><?= htmlspecialchars($product['name']) ?></h5>
+                            <p class="fw-bold text-primary">$<?= number_format($product['price'], 2) ?></p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        <?php endforeach; ?>
-    </div>
-</section>
-
-<!-- Testimonials Section -->
-<section class="container my-5">
-    <h2 class="text-center mb-4" style="color:rgba(216, 220, 221, 0.92);">What Our Users Say</h2>
-    <br>
-    <div class="row text-center g-4" style="background-color:rgb(22, 122, 140);">
-        <div class="col-md-4" style="background-color:rgb(22, 122, 140);">
-            <div class="testimonial" style="background-color:rgba(3, 58, 72, 0.9);">
-                <p style="color:rgba(216, 220, 221, 0.92);">"GoGalse products are amazing. I love the style and the quality!"</p>
-                <strong style="color:rgba(216, 220, 221, 0.92);">– Priya S.</strong>
-            </div>
-        </div>
-        <div class="col-md-4" style="background-color:rgb(22, 122, 140);">
-            <div class="testimonial" style="background-color:rgba(3, 58, 72, 0.9);">
-                <p style="color:rgba(216, 220, 221, 0.92);">"Fast delivery and top-notch customer service. Highly recommend GoGalse."</p>
-                <strong style="color:rgba(216, 220, 221, 0.92);">– Ramesh P.</strong>
-            </div>
-        </div>
-        <div class="col-md-4" style="background-color:rgb(22, 122, 140);">
-            <div class="testimonial" style="background-color:rgba(3, 58, 72, 0.9);">
-                <p style="color:rgba(216, 220, 221, 0.92);">"I'm impressed with the product durability and design. Will buy again!"</p>
-                <strong style="color:rgba(216, 220, 221, 0.92);">– Anjali M.</strong>
-            </div>
-            <br>
+            <?php endforeach; ?>
         </div>
     </div>
 </section>
 
+<!-- About Section -->
+<section class="py-5 about-optical">
+    <div class="container">
+        <h2 class="text-center mb-4">About GoGalse Optical</h2>
+        <p class="text-center">At GoGalse Optical, we believe eyewear should be both functional and fashionable. From advanced lenses to modern frames, we focus on delivering premium quality and ultimate comfort. Our wide range includes prescription eyeglasses, sunglasses, readers, sports eyewear, and kids collections — so everyone can see clearly and look their best.</p>
+    </div>
+</section>
 
-<!-- Slider -->
-
- <div class="footar-slider">
-<div id="mainCarousel" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-inner">
-        <div class="carousel-item active">
-            <img src="images/home2.jpg" class="d-block w-100" alt="GoGalse Banner 1"
-                 style="height: 500px; width: 100%; object-fit: contain; background-color:rgb(8, 87, 101); border-radius: 12px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);">
-        </div>
-        <div class="carousel-item">
-            <img src="images/home3.jpg" class="d-block w-100" alt="GoGalse Banner 2"
-                 style="height: 500px; width: 100%; object-fit: contain; background-color:rgb(8, 87, 101); border-radius: 12px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);">
-        </div>
-        <div class="carousel-item">
-            <img src="images/home4.jpg" class="d-block w-100" alt="GoGalse Banner 3"
-                 style="height: 500px; width: 100%; object-fit: contain; background-color:rgb(8, 87, 101); border-radius: 12px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);">
+<!-- Feedback Section -->
+<section class="py-5" style="background-color: #ffffff;">
+    <div class="container">
+        <h2 class="text-center mb-4" style="color: #1f3a52;">Customer Reviews</h2>
+        <div class="row g-4">
+            <?php if ($feedbacks): ?>
+                <?php foreach ($feedbacks as $feedback): ?>
+                    <div class="col-md-4">
+                        <div class="feedback-card shadow-sm">
+                            <div class="feedback-header">
+                                <img src="assets/images/user-avatar.png" alt="User">
+                                <div>
+                                    <h6 class="mb-0"><?= htmlspecialchars($feedback['name']) ?></h6>
+                                    <small class="text-muted"><?= date("F j, Y", strtotime($feedback['created_at'])) ?></small>
+                                </div>
+                            </div>
+                            <p class="mt-2 flex-grow-1"><?= nl2br(htmlspecialchars($feedback['message'])) ?></p>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div class="col-12 text-center">
+                    <p class="text-muted">No feedback yet. Be the first to share your experience!</p>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon"></span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon"></span>
-    </button>
-</div>
-</div>
+</section>
 
 <!-- Footer -->
-<footer class="text-center">
-    <div class="container">
-        <p class="mb-1">&copy; <?= date("Y") ?> GoGalse. All rights reserved.</p>
-        <small>Designed for performance and simplicity.</small>
-    </div>
+<footer class="text-center text-white py-4">
+    <p>&copy; 2025 GoGalse Optical | 
+       <a href="home.php">Home</a> | 
+       <a href="shop.php">Shop</a> | 
+       <a href="cart.php">Cart</a> | 
+       <a href="contact.php">Contact</a>
+    </p>
+    <p>Follow Us: 
+       <a href="#">Facebook</a> | 
+       <a href="#">Instagram</a> | 
+       <a href="#">Twitter</a>
+    </p>
 </footer>
 
-<!-- Bootstrap Script -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
