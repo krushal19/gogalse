@@ -153,18 +153,7 @@ $companies = $conn->query("SELECT DISTINCT company FROM products")->fetchAll(PDO
 </div>
 
 <!-- Footer -->
-<footer style="background-color: #085765; color: white; padding: 20px 0; text-align: center;">
-    <p>&copy; 2025 GoGalse | 
-       <a href="shop.php" style="color: #fff;">Home</a> | 
-       <a href="cart.php" style="color: #fff;">Cart</a> | 
-       <a href="contact.php" style="color: #fff;">Contact</a>
-    </p>
-    <p>Follow Us: 
-       <a href="#" style="color: #fff;">Facebook</a> | 
-       <a href="#" style="color: #fff;">Instagram</a> | 
-       <a href="#" style="color: #fff;">Twitter</a>
-    </p>
-</footer>
+<?php include "footar.php"; ?>
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

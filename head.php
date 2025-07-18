@@ -40,6 +40,7 @@
                 <li class="nav-item"><a class="nav-link" href="shop.php">Shop</a></li>
                 <li class="nav-item"><a class="nav-link" href="cart.php">Cart</a></li>
                 <li class="nav-item"><a class="nav-link" href="contact.php">Contact</a></li>
+                <li class="nav-item"><a class="nav-link" href="recover.php">Order</a></li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown">
                         <i class="fas fa-user-circle"></i> Profile

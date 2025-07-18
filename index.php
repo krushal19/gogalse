@@ -109,11 +109,7 @@ include 'db.php';
 </div>
 
 <!-- Footer -->
-<footer class="mt-5">
-    <div class="container text-center">
-        <p>&copy; <?= date("Y") ?> GoGalse. All rights reserved.</p>
-    </div>
-</footer>
+<?php include "footar.php"; ?>
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

@@ -90,5 +90,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 </div>
 
+<!-- Footer -->
+<?php include "footar.php"; ?>
 </body>
 </html>

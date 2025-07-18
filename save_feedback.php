@@ -1,35 +1,37 @@
 <?php
-require_once "db.php"; // Make sure this file defines $conn
-<?php include "head.php"; ?>
+require_once "db.php"; // Ensure $conn is properly set in db.php
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Collect and sanitize inputs
-    $name = htmlspecialchars($_POST['name'] ?? '');
-    $email = htmlspecialchars($_POST['email'] ?? '');
-    $message = htmlspecialchars($_POST['message'] ?? '');
+    $name = trim(htmlspecialchars($_POST['name'] ?? ''));
+    $email = trim(htmlspecialchars($_POST['email'] ?? ''));
+    $message = trim(htmlspecialchars($_POST['message'] ?? ''));
 
-    // Simple validation
+    // Basic validation
     if (!empty($name) && !empty($email) && !empty($message)) {
         try {
-            // Insert into feedback table
+            // Prepare and execute insert query
             $stmt = $conn->prepare("INSERT INTO feedback (name, email, message, created_at) VALUES (:name, :email, :message, NOW())");
             $stmt->execute([
-                'name' => $name,
-                'email' => $email,
-                'message' => $message
+                ':name' => $name,
+                ':email' => $email,
+                ':message' => $message
             ]);
 
-            // Redirect to a thank you page (you can create thank_you.php), or show a message
+            // Redirect to thank you page
             header("Location: thank_you.php");
             exit;
 
         } catch (PDOException $e) {
-            die("Database error: " . $e->getMessage());
+            echo "<p style='color: red;'>❌ Error saving feedback: " . $e->getMessage() . "</p>";
         }
     } else {
-        echo "All fields are required.";
+        echo "<p style='color: red;'>❌ All fields are required. Please fill in all fields.</p>";
     }
 } else {
-    echo "Invalid request.";
+    echo "<p style='color: red;'>❌ Invalid request method.</p>";
 }
 ?>
+
+<!-- Footer -->
+<?php include "footar.php"; ?>

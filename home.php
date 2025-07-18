@@ -169,19 +169,7 @@ $feedbacks = $feedbackStmt->fetchAll(PDO::FETCH_ASSOC);
 </section>
 
 <!-- Footer -->
-<footer class="text-center text-white py-4">
-    <p>&copy; 2025 GoGalse Optical | 
-       <a href="home.php">Home</a> | 
-       <a href="shop.php">Shop</a> | 
-       <a href="cart.php">Cart</a> | 
-       <a href="contact.php">Contact</a>
-    </p>
-    <p>Follow Us: 
-       <a href="#">Facebook</a> | 
-       <a href="#">Instagram</a> | 
-       <a href="#">Twitter</a>
-    </p>
-</footer>
+<?php include "footar.php"; ?>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

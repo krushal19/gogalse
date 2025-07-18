@@ -124,5 +124,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     echo "<h3 style='color:red; text-align:center;'>Invalid request. Please submit the form properly.</h3>";
 }
 ?>
+<!-- Footer -->
+<?php include "footar.php"; ?>
 </body>
 </html>

@@ -210,5 +210,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             document.querySelector('.edit-btn').style.display = 'none';
         }
     </script>
+    <!-- Footer -->
+<?php include "footar.php"; ?>
 </body>
 </html>
